@@ -1,0 +1,146 @@
+[
+  {
+    "id": "knot",
+    "name": "Knot",
+    "tag": "[KNOT]",
+    "owner": "Knot",
+    "description": "Elite tactical squad led by Knot. We dominate through teamwork and strategic gameplay.",
+    "members": 1,
+    "region": "NA East",
+    "platform": "PC",
+    "founded": "2024",
+    "image": null,
+    "color": "#4A9EFF",
+    "memberList": [
+      {
+        "username": "Knot",
+        "role": "Leader"
+      }
+    ],
+    "activity": [
+      {
+        "type": "member_joined",
+        "message": "player2 joined the clan",
+        "timestamp": "2026-01-12T11:28:54.796Z",
+        "timeAgo": "just now"
+      },
+      {
+        "type": "member_left",
+        "message": "player2 was removed from the clan",
+        "timestamp": "2026-01-12T11:37:04.523Z",
+        "timeAgo": "just now"
+      }
+    ]
+  },
+  {
+    "id": "phantom",
+    "name": "Phantom Legion",
+    "tag": "[PHTM]",
+    "owner": "GhostReaper",
+    "description": "Silent but deadly. We strike from the shadows and vanish before the enemy knows what hit them.",
+    "members": 62,
+    "region": "EU West",
+    "platform": "Cross-play",
+    "founded": "2023",
+    "image": null,
+    "color": "#9B59B6",
+    "memberList": [
+      {
+        "username": "GhostReaper",
+        "role": "Leader"
+      }
+    ],
+    "activity": []
+  },
+  {
+    "id": "ironwolf",
+    "name": "Iron Wolves",
+    "tag": "[WOLF]",
+    "owner": "AlphaStrike",
+    "description": "A brotherhood of warriors. We fight as one pack and never leave a soldier behind.",
+    "members": 35,
+    "region": "NA West",
+    "platform": "PC",
+    "founded": "2024",
+    "image": null,
+    "color": "#E74C3C",
+    "memberList": [
+      {
+        "username": "AlphaStrike",
+        "role": "Leader"
+      }
+    ],
+    "activity": []
+  },
+  {
+    "id": "vanguard",
+    "name": "Vanguard Elite",
+    "tag": "[VGD]",
+    "owner": "CommanderX",
+    "description": "First into battle, last to retreat. We set the standard for competitive BF6 gameplay.",
+    "members": 89,
+    "region": "EU Central",
+    "platform": "PlayStation",
+    "founded": "2023",
+    "image": null,
+    "color": "#2ECC71",
+    "memberList": [
+      {
+        "username": "CommanderX",
+        "role": "Leader"
+      }
+    ],
+    "activity": []
+  },
+  {
+    "id": "storm",
+    "name": "Storm Brigade",
+    "tag": "[STRM]",
+    "owner": "ThunderBolt",
+    "description": "We bring the storm to every battlefield. Fast, aggressive, and unstoppable.",
+    "members": 28,
+    "region": "Asia Pacific",
+    "platform": "Xbox",
+    "founded": "2024",
+    "image": null,
+    "color": "#F39C12",
+    "memberList": [
+      {
+        "username": "ThunderBolt",
+        "role": "Leader"
+      }
+    ],
+    "activity": []
+  },
+  {
+    "id": "test",
+    "name": "TEST",
+    "tag": "hello",
+    "owner": "Knot",
+    "description": "lol",
+    "members": 2,
+    "region": "NA West",
+    "platform": "PC",
+    "founded": "2026",
+    "image": null,
+    "color": "#1fc150",
+    "memberList": [
+      {
+        "username": "Knot",
+        "role": "Leader"
+      },
+      {
+        "username": "player3",
+        "role": "Member"
+      }
+    ],
+    "activity": [
+      {
+        "type": "member_joined",
+        "message": "player3 joined the clan",
+        "timestamp": "2026-01-12T11:34:03.837Z",
+        "timeAgo": "just now"
+      }
+    ]
+  }
+]

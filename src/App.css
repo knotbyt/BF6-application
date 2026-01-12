@@ -41,235 +41,30 @@
   transition: color 0.3s ease;
 }
 
-#about {
-  position: relative;
+.about-page {
   min-height: 100vh;
-  padding-bottom: 80px;
-  overflow: hidden;
-}
-
-.about-background {
-  position: absolute;
-  top: -10%;
-  left: -10%;
-  width: 120%;
-  height: 120%;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  transition: transform 0.1s ease-out;
-  z-index: 0;
-}
-
-#about::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(26, 30, 33, 0.7);
-  z-index: 1;
-}
-
-#about > *:not(.about-background) {
-  position: relative;
-  z-index: 2;
-}
-
-
-.about-intro {
-  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 64px;
-  z-index: 1;
-  flex-wrap: nowrap;
-  padding: 120px 32px 60px;
-  margin: 0 auto;
-  max-width: 1200px;
+  padding: 100px 32px;
 }
 
-.about-intro-text {
-  color: rgba(255, 255, 255, 0.87);
-  font-size: 24px;
-  white-space: nowrap;
-  min-width: 300px;
-  flex-shrink: 0;
+.about-container {
+  max-width: 600px;
+  text-align: center;
 }
 
-.about-intro-desc {
-  padding-top: 70px;
-}
-
-
-.greeting-text {
-  font-size: 24px;
-}
-
-.name-text {
+.about-title {
   font-size: 36px;
-  font-weight: 600;
-}
-
-.download-cv-btn {
-  margin-top: 24px;
-  padding: 12px 24px;
-  background-color: #4A9EFF;
-  color: #0a0d0f;
-  border: none;
-  border-radius: 50px;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(74, 158, 255, 0.3);
-  line-height: 1;
-}
-
-.download-cv-btn:hover {
-  background-color: #5aaeff;
-  box-shadow: 0 6px 20px rgba(74, 158, 255, 0.5);
-  transform: translateY(-2px);
-}
-
-.download-cv-btn:active {
-  transform: translateY(0);
-}
-
-.download-icon {
-  width: 20px;
-  height: 20px;
-  flex-shrink: 0;
-  vertical-align: middle;
-  display: inline-block;
-}
-
-.typed-text {
+  font-weight: 700;
   color: #4A9EFF;
-  font-weight: 600;
+  margin-bottom: 24px;
 }
 
-.typed-cursor {
-  color: #4A9EFF;
-  font-weight: 600;
-  animation: blink 1s infinite;
-}
-
-@keyframes blink {
-  0%, 50% {
-    opacity: 1;
-  }
-  51%, 100% {
-    opacity: 0;
-  }
-}
-
-.image-glow-wrapper {
-  position: relative;
-  margin-left: 32px;
-  flex-shrink: 0;
-  width: 360px;
-  height: 360px;
-  border-radius: 50%;
-  padding: 4px;
-  background: conic-gradient(from 0deg, #3d5677, #2d3e55, #3d5677);
-  animation: rotateGlow 4s linear infinite, pulseGlow 3s ease-in-out infinite;
-  box-shadow: 0 0 20px rgba(45, 62, 85, 0.8),
-              0 0 40px rgba(45, 62, 85, 0.6),
-              0 0 60px rgba(45, 62, 85, 0.4);
-  will-change: transform;
-}
-
-@keyframes rotateGlow {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes pulseGlow {
-  0%, 100% {
-    box-shadow: 0 0 20px rgba(45, 62, 85, 0.8),
-                0 0 40px rgba(45, 62, 85, 0.6),
-                0 0 60px rgba(45, 62, 85, 0.4);
-  }
-  50% {
-    box-shadow: 0 0 30px rgba(45, 62, 85, 1),
-                0 0 60px rgba(45, 62, 85, 0.8),
-                0 0 90px rgba(45, 62, 85, 0.6);
-  }
-}
-
-.about-intro-image {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  object-fit: cover;
-  display: block;
-  animation: counterRotate 4s linear infinite;
-}
-
-.about-desc-text {
-  margin-top: 20px;
-
-}
-
-
-@keyframes counterRotate {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(-360deg);
-  }
-}
-
-.about-intro-stats {
-  display: block;
-}
-
-.about-description-box {
-  position: relative;
-  width: 90%;
-  max-width: 800px;
-  margin: 0 auto 60px;
-  background-color: rgba(17, 20, 22, 0.8);
-  border: 1px solid rgba(74, 158, 255, 0.3);
-  border-radius: 0;
-  padding: 32px;
-  z-index: 1;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3),
-              0 0 40px rgba(74, 158, 255, 0.1);
-  backdrop-filter: blur(10px);
-}
-
-.description-title {
-  font-size: 28px;
-  font-weight: 600;
-  margin-bottom: 16px;
-  color: #4A9EFF;
-}
-
-.description-subtitle {
-  font-size: 22px;
-  font-weight: 600;
-  margin-top: 24px;
-  margin-bottom: 12px;
-  color: #4A9EFF;
-}
-
-.description-text {
+.about-text {
+  font-size: 18px;
   color: rgba(255, 255, 255, 0.7);
-  font-size: 16px;
-  line-height: 1.6;
-  margin-bottom: 0;
+  line-height: 1.8;
 }
 
 .page-content {
@@ -380,4 +175,751 @@
 
 .submit-application-btn:active {
   transform: translateY(0);
+}
+
+.applying-to-banner {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+  background: linear-gradient(145deg, rgba(17, 20, 22, 0.95) 0%, rgba(26, 30, 33, 0.9) 100%);
+  border: 1px solid rgba(74, 158, 255, 0.3);
+  border-left: 4px solid;
+  border-radius: 12px;
+  margin-bottom: 24px;
+}
+
+.banner-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  font-weight: 700;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.banner-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.banner-tag {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.banner-name {
+  font-size: 18px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.banner-leader {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.clans-page {
+  padding: 100px 32px 80px;
+  max-width: 1200px;
+  margin: 0 auto;
+  min-height: 100vh;
+}
+
+.clans-header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.clans-title {
+  font-size: 48px;
+  font-weight: 700;
+  color: #4A9EFF;
+  margin-bottom: 12px;
+  letter-spacing: -1px;
+}
+
+.clans-subtitle {
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 32px;
+}
+
+.add-clan-btn {
+  padding: 14px 32px;
+  background: linear-gradient(135deg, #4A9EFF 0%, #2d7dd2 100%);
+  color: #fff;
+  border: none;
+  border-radius: 50px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(74, 158, 255, 0.4);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.add-clan-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 30px rgba(74, 158, 255, 0.5);
+}
+
+.plus-icon {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.clans-list-container {
+  max-height: calc(100vh - 300px);
+  overflow-y: auto;
+  padding-right: 8px;
+  scrollbar-width: thin;
+  scrollbar-color: #4A9EFF #1A1E21;
+}
+
+.clans-list-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.clans-list-container::-webkit-scrollbar-track {
+  background: #1A1E21;
+  border-radius: 4px;
+}
+
+.clans-list-container::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #4A9EFF, #2d7dd2);
+  border-radius: 4px;
+}
+
+.clans-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.clan-card {
+  background: linear-gradient(145deg, rgba(17, 20, 22, 0.95) 0%, rgba(26, 30, 33, 0.9) 100%);
+  border: 1px solid rgba(74, 158, 255, 0.2);
+  border-left: 4px solid var(--clan-color, #4A9EFF);
+  border-radius: 12px;
+  padding: 24px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.clan-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, var(--clan-color, #4A9EFF) 0%, transparent 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.clan-card:hover {
+  transform: translateX(8px);
+  border-color: var(--clan-color, #4A9EFF);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4),
+              -4px 0 20px var(--clan-color, rgba(74, 158, 255, 0.3));
+}
+
+.clan-card:hover::before {
+  opacity: 0.05;
+}
+
+.clan-card-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+  position: relative;
+  z-index: 1;
+}
+
+.clan-avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: 700;
+  color: #fff;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.clan-info {
+  flex: 1;
+}
+
+.clan-name {
+  font-size: 22px;
+  font-weight: 600;
+  color: #fff;
+  margin: 0 0 4px 0;
+}
+
+.clan-tag {
+  color: var(--clan-color, #4A9EFF);
+  font-weight: 700;
+}
+
+.clan-owner {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.5);
+  margin: 0;
+}
+
+.edit-clan-btn {
+  padding: 8px 16px;
+  background: rgba(74, 158, 255, 0.15);
+  border: 1px solid rgba(74, 158, 255, 0.3);
+  border-radius: 20px;
+  color: #4A9EFF;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.edit-clan-btn:hover {
+  background: rgba(74, 158, 255, 0.25);
+  border-color: #4A9EFF;
+}
+
+.clan-description {
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.6;
+  margin-bottom: 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.clan-stats {
+  display: flex;
+  gap: 32px;
+  padding: 16px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 16px;
+  position: relative;
+  z-index: 1;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.stat-value {
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.4);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.clan-card-footer {
+  display: flex;
+  justify-content: flex-end;
+  position: relative;
+  z-index: 1;
+}
+
+.view-clan {
+  color: var(--clan-color, #4A9EFF);
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.clan-card:hover .view-clan {
+  transform: translateX(4px);
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  backdrop-filter: blur(8px);
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal-content {
+  background: linear-gradient(145deg, #1A1E21 0%, #111416 100%);
+  border: 1px solid rgba(74, 158, 255, 0.3);
+  border-radius: 16px;
+  padding: 40px;
+  width: 100%;
+  max-width: 520px;
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: slideUp 0.3s ease;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5),
+              0 0 40px rgba(74, 158, 255, 0.1);
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.modal-title {
+  font-size: 28px;
+  font-weight: 600;
+  color: #4A9EFF;
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+.clan-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-row {
+  display: flex;
+  gap: 16px;
+}
+
+.form-row .form-group {
+  flex: 1;
+}
+
+.color-picker {
+  width: 100%;
+  height: 50px;
+  padding: 4px;
+  cursor: pointer;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 16px;
+  margin-top: 12px;
+}
+
+.cancel-btn {
+  flex: 1;
+  padding: 14px 24px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.cancel-btn:hover {
+  border-color: rgba(255, 255, 255, 0.4);
+  color: #fff;
+}
+
+.submit-btn {
+  flex: 1;
+  padding: 14px 24px;
+  background: linear-gradient(135deg, #4A9EFF 0%, #2d7dd2 100%);
+  border: none;
+  border-radius: 50px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(74, 158, 255, 0.3);
+}
+
+.submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(74, 158, 255, 0.5);
+}
+
+.clan-page {
+  padding: 100px 32px 80px;
+  max-width: 1400px;
+  margin: 0 auto;
+  min-height: 100vh;
+}
+
+.back-btn {
+  padding: 10px 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-bottom: 32px;
+}
+
+.back-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.clan-page-header {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 32px;
+  background: linear-gradient(145deg, rgba(17, 20, 22, 0.95) 0%, rgba(26, 30, 33, 0.9) 100%);
+  border: 1px solid rgba(74, 158, 255, 0.2);
+  border-left: 6px solid var(--clan-color, #4A9EFF);
+  border-radius: 16px;
+  margin-bottom: 32px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.clan-page-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48px;
+  font-weight: 700;
+  color: #fff;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.clan-page-title h1 {
+  font-size: 36px;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 8px 0;
+}
+
+.clan-page-tag {
+  color: var(--clan-color, #4A9EFF);
+}
+
+.clan-page-leader {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0;
+}
+
+.clan-page-leader strong {
+  color: var(--clan-color, #4A9EFF);
+}
+
+.clan-page-content {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 32px;
+}
+
+.clan-page-main {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.clan-section {
+  background: linear-gradient(145deg, rgba(17, 20, 22, 0.95) 0%, rgba(26, 30, 33, 0.9) 100%);
+  border: 1px solid rgba(74, 158, 255, 0.15);
+  border-radius: 16px;
+  padding: 28px;
+}
+
+.section-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #4A9EFF;
+  margin: 0 0 20px 0;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(74, 158, 255, 0.2);
+}
+
+.clan-about-text {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.75);
+  line-height: 1.7;
+  margin: 0;
+}
+
+.clan-info-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.info-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.info-icon {
+  font-size: 28px;
+}
+
+.info-details {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.info-value {
+  font-size: 18px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.info-label {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.4);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.activity-feed {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.activity-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 16px;
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+  transition: all 0.2s ease;
+}
+
+.activity-item:hover {
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.activity-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-top: 6px;
+  flex-shrink: 0;
+}
+
+.activity-content p {
+  margin: 0 0 4px 0;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 15px;
+}
+
+.activity-time {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.clan-page-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.sidebar-section {
+  background: linear-gradient(145deg, rgba(17, 20, 22, 0.95) 0%, rgba(26, 30, 33, 0.9) 100%);
+  border: 1px solid rgba(74, 158, 255, 0.15);
+  border-radius: 16px;
+  padding: 24px;
+}
+
+.sidebar-section h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+  margin: 0 0 16px 0;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.action-btn {
+  width: 100%;
+  padding: 14px 20px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-bottom: 12px;
+}
+
+.action-btn.primary {
+  border: none;
+  color: #fff;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.action-btn.primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+
+.action-btn.secondary {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.action-btn.secondary:hover {
+  border-color: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.member-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.member-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+  transition: all 0.2s ease;
+}
+
+.member-item:hover {
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.member-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: rgba(74, 158, 255, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.member-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.member-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: #fff;
+}
+
+.member-role {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.stats-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.stat-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.stat-row:last-child {
+  border-bottom: none;
+}
+
+.stat-name {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.stat-val {
+  font-size: 14px;
+  font-weight: 600;
+  color: #4A9EFF;
+}
+
+@media (max-width: 1024px) {
+  .clan-page-content {
+    grid-template-columns: 1fr;
+  }
+  
+  .clan-info-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .clans-title {
+    font-size: 36px;
+  }
+  
+  .clan-stats {
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  
+  .clan-page-header {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .clan-page-title h1 {
+    font-size: 28px;
+  }
 }

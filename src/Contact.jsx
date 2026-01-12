@@ -1,10 +1,29 @@
 import './App.css'
 
-function Contact() {
+function Contact({ clan, onBack }) {
   return (
     <div id="contact">
       <div className="contact-page">
-        <h1 className="contact-title">Apply to Join</h1>
+        {clan && (
+          <button className="back-btn" onClick={onBack}>
+            ← Back to {clan.name}
+          </button>
+        )}
+        <h1 className="contact-title">
+          Apply to Join {clan ? <span style={{ color: clan.color }}>{clan.name}</span> : 'a Clan'}
+        </h1>
+        {clan && (
+          <div className="applying-to-banner" style={{ borderColor: clan.color }}>
+            <div className="banner-avatar" style={{ backgroundColor: clan.color }}>
+              {clan.name.charAt(0)}
+            </div>
+            <div className="banner-info">
+              <span className="banner-tag" style={{ color: clan.color }}>{clan.tag}</span>
+              <span className="banner-name">{clan.name}</span>
+              <span className="banner-leader">Led by {clan.owner}</span>
+            </div>
+          </div>
+        )}
         <div className="application-form">
           <form className="clan-application">
             <div className="form-group">
@@ -57,4 +76,3 @@ function Contact() {
 }
 
 export default Contact
-

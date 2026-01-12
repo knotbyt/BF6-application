@@ -5,12 +5,11 @@ function Navbar() {
     <div className="top-bar">
       <div className="brand">BF6 Clan</div>
       <nav className="navbar">
-        <a href="#about" className="nav-link">Join Us</a>
-        <a href="#contact" className="nav-link">Apply</a>
+        <a href="#clans" className="nav-link">Clans</a>
+        <a href="#about" className="nav-link">About</a>
       </nav>
     </div>
   )
 }
 
 export default Navbar
-
