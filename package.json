@@ -10,6 +10,10 @@
     "preview": "vite preview",
     "add-member": "node server/scripts/addMember.js",
     "kick-member": "node server/scripts/kickMember.js",
+    "add-clan": "node server/scripts/addClan.js",
+    "remove-clan": "node server/scripts/removeClan.js",
+    "promote": "node server/scripts/promoteMember.js",
+    "demote": "node server/scripts/demoteMember.js",
     "server": "node server/index.js"
   },
   "dependencies": {

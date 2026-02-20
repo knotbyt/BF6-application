@@ -9,7 +9,7 @@ The primary functionalities of the application include:
 - **User Authentication** – Secure registration and login system using JWT tokens, allowing users to manage their own accounts.
 - **Clan Management** – Users can create, edit, and delete clans with customizable details such as name, tag, description, region, platform, and color.
 - **Membership System** – Players can join or leave existing clans, with member tracking and owner-based permissions.
-- **Persistent Data Storage** – All user and clan data is stored in a MongoDB database, ensuring data persists across sessions.
+- **Persistent Data Storage** – All clan data is stored in local JSON files, ensuring data persists across sessions without requiring an external database.
 
 By using this application, users will benefit from an organized and intuitive way to find and manage gaming communities for Battlefield 6.
 
@@ -17,36 +17,38 @@ By using this application, users will benefit from an organized and intuitive wa
 
 The application architecture is based on the following technologies:
 
-- **Backend:** Node.js with Express.js – handles API requests, authentication middleware, and database operations.
+- **Backend:** Node.js with Express.js – handles API requests, authentication middleware, and file-based data operations.
 - **Frontend:** React (with Vite as the build tool) – provides a modern, responsive single-page application interface.
-- **Database:** MongoDB (supports both local installation and MongoDB Atlas cloud hosting) – stores user accounts and clan data as document collections.
+- **Storage:** Local JSON files (`data/clans.json`, `public/data/clans.json`) – stores clan data in a lightweight, file-based format with no external database required.
 
 ### Architecture Overview
 
-The application follows a client-server architecture with a RESTful API separating the frontend and backend. The React frontend communicates with the Express backend through HTTP requests, with JWT tokens handling authentication state. The backend interfaces with MongoDB through Mongoose ODM for data modeling and validation.
+The application follows a client-server architecture with a RESTful API separating the frontend and backend. The React frontend communicates with the Express backend through HTTP requests, with JWT tokens handling authentication state. The backend reads and writes data directly to JSON files on disk, making the application self-contained and easy to deploy.
 
-### Database Schema
+### Data Schema
 
-**User**
-- `username` (String, unique, required)
-- `email` (String, unique, required)
-- `password` (String, hashed, required)
-- `createdAt` (Date)
-
-**Clan**
+**Clan** (stored in `data/clans.json`)
+- `id` (String, unique identifier)
 - `name` (String, required)
 - `tag` (String, required)
-- `owner` (ObjectId, ref: User)
-- `ownerUsername` (String)
+- `owner` (String, owner username)
 - `description` (String, required)
 - `members` (Number, default: 1)
-- `memberList` (Array of ObjectIds, ref: User)
-- `region` (String, enum)
-- `platform` (String, enum)
-- `founded` (String)
+- `memberList` (Array of objects with `username` and `role`)
+- `region` (String, enum: NA East, NA West, EU West, EU Central, Asia Pacific)
+- `platform` (String, enum: PC, Xbox, PlayStation, Cross-play)
+- `founded` (String, year)
 - `image` (String, optional)
 - `color` (String, default: '#4A9EFF')
-- `createdAt` (Date)
+- `activity` (Array of activity log entries)
+
+### Role Hierarchy
+
+Members within a clan have one of the following roles:
+
+- **Leader** – Clan owner, full control over the clan. Only one per clan.
+- **Officer** – Elevated permissions, can be promoted to Leader.
+- **Member** – Standard member with basic access.
 
 ### Diagrams
 
@@ -72,62 +74,18 @@ cd BF6-application
 npm install
 ```
 
-### 3. Setting Up Environment Variables
-
-Create a `.env` file in the root directory:
-
-**For MongoDB Atlas (Cloud):**
-
-1. In MongoDB Atlas, click "Connect" on your cluster
-2. Choose "Drivers" → Select "Node.js" → Copy the connection string
-3. Replace `<password>` with your database user password and `<dbname>` with `bf6-clans`
-
-```
-PORT=5000
-MONGODB_URI=mongodb+srv://username:password@cluster0.xxxxx.mongodb.net/bf6-clans?retryWrites=true&w=majority
-JWT_SECRET=your-super-secret-jwt-key-change-this-in-production
-```
-
-**For Local MongoDB:**
-
-```
-PORT=5000
-MONGODB_URI=mongodb://localhost:27017/bf6-clans
-JWT_SECRET=your-super-secret-jwt-key-change-this-in-production
-```
-
-For the frontend, create a `.env` file in the root:
-
-```
-VITE_API_URL=http://localhost:5000/api
-```
-
-### 4. Starting MongoDB
-
-- **MongoDB Atlas**: No setup needed – it's cloud-based.
-- **Local MongoDB**: Ensure MongoDB is running on your system.
-
-### 5. Running the Application
-
-**Development mode (with auto-reload):**
+### 3. Running the Application
 
 ```bash
-# Terminal 1: Start the backend server
-npm run dev:server
-
-# Terminal 2: Start the frontend
 npm run dev
 ```
 
-**Production mode:**
+This starts the Vite development server. The application will be available at `http://localhost:5173`.
+
+To start the backend server separately (for API routes):
 
 ```bash
-# Terminal 1: Start the backend server
 npm run server
-
-# Terminal 2: Build and preview frontend
-npm run build
-npm run preview
 ```
 
 ### Project Structure
@@ -136,20 +94,31 @@ npm run preview
 BF6-application/
 ├── server/              # Backend code
 │   ├── index.js         # Express server setup
-│   ├── models/          # MongoDB models
-│   │   ├── User.js
-│   │   └── Clan.js
 │   ├── routes/          # API routes
-│   │   ├── auth.js
-│   │   └── clans.js
-│   └── middleware/      # Middleware functions
-│       └── auth.js
-├── src/                 # Frontend code
-│   ├── components/      # React components
-│   ├── context/         # React context (Auth)
-│   └── ...
-├── data/                # Data files
+│   │   ├── auth.js      # Authentication endpoints
+│   │   ├── clans.js     # Clan CRUD (MongoDB-based, optional)
+│   │   └── localClans.js # Clan CRUD (file-based, primary)
+│   ├── models/          # Data models
+│   ├── middleware/       # Middleware (JWT auth)
+│   └── scripts/         # CLI utility scripts
+│       ├── addMember.js
+│       ├── kickMember.js
+│       ├── addClan.js
+│       ├── removeClan.js
+│       ├── promoteMember.js
+│       └── demoteMember.js
+├── src/                 # Frontend code (React)
+│   ├── App.jsx          # Main app component
+│   ├── Clans.jsx        # Clan listing and management
+│   ├── ClanPage.jsx     # Individual clan detail page
+│   ├── Contact.jsx      # Contact page
+│   ├── About.jsx        # About page
+│   └── Navbar.jsx       # Navigation bar
+├── data/                # JSON data storage
+│   └── clans.json       # Clan data
 ├── public/              # Static assets
+│   └── data/
+│       └── clans.json   # Public-facing clan data
 └── package.json
 ```
 
@@ -160,14 +129,49 @@ BF6-application/
 - `POST /api/auth/login` – Login user
 - `GET /api/auth/me` – Get current user (requires token)
 
-**Clans:**
-- `GET /api/clans` – Get all clans
-- `GET /api/clans/:id` – Get a single clan
-- `POST /api/clans` – Create a new clan (requires authentication)
-- `PUT /api/clans/:id` – Update a clan (requires authentication, owner only)
-- `DELETE /api/clans/:id` – Delete a clan (requires authentication, owner only)
-- `POST /api/clans/:id/join` – Join a clan (requires authentication)
-- `POST /api/clans/:id/leave` – Leave a clan (requires authentication)
+**Clans (file-based):**
+- `GET /api/local/clans` – Get all clans
+- `POST /api/local/clans` – Create a new clan
+- `PUT /api/local/clans/:id` – Update a clan
+- `DELETE /api/local/clans/:id` – Delete a clan
+
+### CLI Scripts
+
+The application includes utility scripts for managing clans and members from the command line. All scripts search by clan name, ID, or tag (case-insensitive).
+
+**Clan Management:**
+
+```bash
+# Add a new clan
+npm run add-clan "Shadow Squad" "[SHDW]" "DarkKnight" "Stealth ops clan" "EU West" "PC"
+npm run add-clan "Shadow Squad" "[SHDW]" "DarkKnight" "Stealth ops clan" "EU West" "PC" "#FF5733"
+
+# Remove a clan
+npm run remove-clan "Shadow Squad"
+npm run remove-clan "[SHDW]"
+```
+
+**Member Management:**
+
+```bash
+# Add a member to a clan
+npm run add-member "Knot" "player2"
+
+# Remove a member from a clan
+npm run kick-member "Knot" "player2"
+```
+
+**Role Management (Member → Officer → Leader):**
+
+```bash
+# Promote a member (Member → Officer → Leader)
+npm run promote "Knot" "player2"
+
+# Demote a member (Leader → Officer → Member)
+npm run demote "Knot" "player2"
+```
+
+Promoting a member to Leader will automatically demote the current leader to Officer. Demoting a Leader requires at least one Officer in the clan to take over.
 
 ## Usage
 
@@ -183,31 +187,25 @@ The application features a React-based single-page interface. The main component
 
 - **Clan Creation and Management** – Authenticated users can create new clans by providing a name, tag, description, region, platform, and optional customization (image, color). Clan owners can edit or delete their clans at any time.
 - **Joining and Leaving Clans** – Users can browse available clans and join ones that interest them. They can also leave clans they no longer wish to be part of.
-- **Data Persistence** – All data is stored in MongoDB. User passwords are hashed for security, and clan membership is tracked through referenced ObjectIds.
+- **Data Persistence** – All clan data is stored in local JSON files. Changes made through the API or CLI scripts are written directly to `public/data/clans.json`.
 
 ### 4. Usage Examples
 
-> _Add screenshots of your application here to illustrate common workflows:_
-> - Registering a new account and logging in.
-> - Creating a new clan and customizing its details.
-> - Browsing, filtering, and joining existing clans.
-> - Editing or deleting a clan as the owner.
->
-> ```
-> ![Screenshot Description](./path-to-screenshot.png)
-> ```
+**Clan Listing** – The main page displays all available clans with their tag, name, owner, description, region, platform, and founding year. Owners can edit or delete their clans directly from this view.
 
-## Security Notes
+![Clan Listing](./screenshots/clans-list.png)
 
-- Change the `JWT_SECRET` in production to a strong, random string.
-- Use environment variables for all sensitive data.
-- Consider adding rate limiting for production deployment.
-- Implement HTTPS in production.
-- Add input validation and sanitization.
+**Creating a Clan** – Clicking "+ Create Clan" opens a form where users can enter the clan name, tag, description, region, platform, and a custom color.
+
+![Create Clan Form](./screenshots/create-clan.png)
+
+**Clan Detail Page** – Clicking "View Clan" shows detailed information including an about section, clan stats, quick actions (apply to join, message leader), and a top members list.
+
+![Clan Detail Page](./screenshots/clan-detail.png)
 
 ## Conclusions and Next Steps
 
-This application provides a robust solution for Battlefield 6 players looking to organize into clans and manage their communities. Users benefit from a streamlined registration process, intuitive clan management, and persistent data storage. The application can be improved by:
+This application provides a robust solution for Battlefield 6 players looking to organize into clans and manage their communities. Users benefit from a streamlined registration process, intuitive clan management, and persistent file-based data storage. The application can be improved by:
 
 - Adding new functionalities based on user feedback (e.g., clan chat, event scheduling, matchmaking integration).
 - Optimizing performance for smoother usage with larger datasets.
@@ -218,7 +216,6 @@ This application provides a robust solution for Battlefield 6 players looking to
 ## Prerequisites
 
 - Node.js (v16 or higher)
-- MongoDB (local installation or MongoDB Atlas account)
 
 ## License
 
