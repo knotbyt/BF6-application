@@ -52,11 +52,55 @@ Members within a clan have one of the following roles:
 
 ### Diagrams
 
-> _Include UML diagrams here as required by your group (class diagram, component diagram, sequence diagram, etc.). You can add images using:_
-> ```
-> ![Diagram Name](./path-to-diagram.png)
-> ```
+```mermaid
+graph TB
+    subgraph Frontend ["Frontend (React + Vite)"]
+        App["App.jsx"]
+        Navbar["Navbar.jsx"]
+        Clans["Clans.jsx"]
+        ClanPage["ClanPage.jsx"]
+        About["About.jsx"]
+        Contact["Contact.jsx"]
+        
+        App --> Navbar
+        App --> Clans
+        App --> ClanPage
+        App --> About
+        App --> Contact
+    end
 
+    subgraph Backend ["Backend (Node.js + Express)"]
+        Server["server/index.js"]
+        AuthRoutes["routes/auth.js"]
+        ClanRoutes["routes/localClans.js"]
+        AuthMW["middleware/auth.js"]
+        
+        Server --> AuthRoutes
+        Server --> ClanRoutes
+        ClanRoutes --> AuthMW
+    end
+
+    subgraph Storage ["File-Based Storage (JSON)"]
+        ClansJSON["public/data/clans.json"]
+        DataJSON["data/clans.json"]
+    end
+
+    subgraph CLI ["CLI Scripts"]
+        AddMember["addMember.js"]
+        KickMember["kickMember.js"]
+        AddClan["addClan.js"]
+        RemoveClan["removeClan.js"]
+        Promote["promoteMember.js"]
+        Demote["demoteMember.js"]
+    end
+
+    Clans -- "fetch /api/local/clans" --> ClanRoutes
+    ClanPage -- "fetch /data/clans.json" --> ClansJSON
+    ClanRoutes -- "read/write" --> ClansJSON
+    AuthRoutes -- "JWT tokens" --> AuthMW
+
+    CLI -- "read/write" --> ClansJSON
+```
 ## Implementation
 
 To download and continue the development of the application, follow these steps:
