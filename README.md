@@ -6,9 +6,9 @@ This application is intended for users who wish to create, manage, and join Batt
 
 The primary functionalities of the application include:
 
-- **User Authentication** – Secure registration and login system using JWT tokens, allowing users to manage their own accounts.
 - **Clan Management** – Users can create, edit, and delete clans with customizable details such as name, tag, description, region, platform, and color.
-- **Membership System** – Players can join or leave existing clans, with member tracking and owner-based permissions.
+- **Clan Browsing** – Users can browse all available clans, view detailed clan pages with member lists, stats, and activity logs.
+- **Membership System** – Players can join or leave existing clans, with member tracking and role-based hierarchy (Leader, Officer, Member).
 - **Persistent Data Storage** – All clan data is stored in local JSON files, ensuring data persists across sessions without requiring an external database.
 
 By using this application, users will benefit from an organized and intuitive way to find and manage gaming communities for Battlefield 6.
@@ -17,17 +17,17 @@ By using this application, users will benefit from an organized and intuitive wa
 
 The application architecture is based on the following technologies:
 
-- **Backend:** Node.js with Express.js – handles API requests, authentication middleware, and file-based data operations.
 - **Frontend:** React (with Vite as the build tool) – provides a modern, responsive single-page application interface.
-- **Storage:** Local JSON files (`data/clans.json`, `public/data/clans.json`) – stores clan data in a lightweight, file-based format with no external database required.
+- **Storage:** Local JSON files (`public/data/clans.json`) – stores clan data in a lightweight, file-based format with no external database required.
+- **CLI Tools:** Node.js scripts for managing clans and members from the command line.
 
 ### Architecture Overview
 
-The application follows a client-server architecture with a RESTful API separating the frontend and backend. The React frontend communicates with the Express backend through HTTP requests, with JWT tokens handling authentication state. The backend reads and writes data directly to JSON files on disk, making the application self-contained and easy to deploy.
+The application is a client-side React SPA (Single Page Application) built with Vite. The frontend reads clan data directly from a static JSON file (`public/data/clans.json`). Clan and member management is handled through CLI scripts that read and write to the same JSON file, keeping the architecture simple and self-contained with no backend server required.
 
 ### Data Schema
 
-**Clan** (stored in `data/clans.json`)
+**Clan** (stored in `public/data/clans.json`)
 - `id` (String, unique identifier)
 - `name` (String, required)
 - `tag` (String, required)
@@ -53,54 +53,93 @@ Members within a clan have one of the following roles:
 ### Diagrams
 
 ```mermaid
-graph TB
-    subgraph Frontend ["Frontend (React + Vite)"]
-        App["App.jsx"]
-        Navbar["Navbar.jsx"]
-        Clans["Clans.jsx"]
-        ClanPage["ClanPage.jsx"]
-        About["About.jsx"]
-        Contact["Contact.jsx"]
-        
-        App --> Navbar
-        App --> Clans
-        App --> ClanPage
-        App --> About
-        App --> Contact
-    end
+classDiagram
+    class App {
+        -String currentPage
+        -Object selectedClan
+        +handleClanSelect(clan)
+        +handleBackToClans()
+        +handleBackToClanPage()
+        +handleApplyToClan()
+        +render()
+    }
 
-    subgraph Backend ["Backend (Node.js + Express)"]
-        Server["server/index.js"]
-        AuthRoutes["routes/auth.js"]
-        ClanRoutes["routes/localClans.js"]
-        AuthMW["middleware/auth.js"]
-        
-        Server --> AuthRoutes
-        Server --> ClanRoutes
-        ClanRoutes --> AuthMW
-    end
+    class Navbar {
+        +render()
+    }
 
-    subgraph Storage ["File-Based Storage (JSON)"]
-        ClansJSON["public/data/clans.json"]
-        DataJSON["data/clans.json"]
-    end
+    class Clans {
+        -Array clans
+        -Boolean loading
+        -Boolean showAddModal
+        -Boolean showEditModal
+        -Object editingClan
+        -Object newClan
+        +loadClans()
+        +reloadClans()
+        +handleClanClick(clan)
+        +handleEdit(event, clan)
+        +handleDelete(event, clan)
+        +handleSaveEdit(event)
+        +handleAddClan(event)
+        +render()
+    }
 
-    subgraph CLI ["CLI Scripts"]
-        AddMember["addMember.js"]
-        KickMember["kickMember.js"]
-        AddClan["addClan.js"]
-        RemoveClan["removeClan.js"]
-        Promote["promoteMember.js"]
-        Demote["demoteMember.js"]
-    end
+    class ClanPage {
+        -Object clanData
+        -Boolean loading
+        +fetchClanData()
+        +render()
+    }
 
-    Clans -- "fetch /api/local/clans" --> ClanRoutes
-    ClanPage -- "fetch /data/clans.json" --> ClansJSON
-    ClanRoutes -- "read/write" --> ClansJSON
-    AuthRoutes -- "JWT tokens" --> AuthMW
+    class About {
+        +render()
+    }
 
-    CLI -- "read/write" --> ClansJSON
+    class Contact {
+        +render()
+    }
+
+    class Clan {
+        +String id
+        +String name
+        +String tag
+        +String owner
+        +String description
+        +Number members
+        +Array~Member~ memberList
+        +String region
+        +String platform
+        +String founded
+        +String image
+        +String color
+        +Array~Activity~ activity
+    }
+
+    class Member {
+        +String username
+        +String role
+    }
+
+    class Activity {
+        +String type
+        +String message
+        +String timestamp
+        +String timeAgo
+    }
+
+    App --> Navbar
+    App --> Clans
+    App --> ClanPage
+    App --> About
+    App --> Contact
+
+    Clans --> Clan : displays list of
+    ClanPage --> Clan : displays details of
+    Clan "1" *-- "1..*" Member : contains
+    Clan "1" *-- "0..*" Activity : logs
 ```
+
 ## Implementation
 
 To download and continue the development of the application, follow these steps:
@@ -126,58 +165,35 @@ npm run dev
 
 This starts the Vite development server. The application will be available at `http://localhost:5173`.
 
-To start the backend server separately (for API routes):
-
-```bash
-npm run server
-```
-
 ### Project Structure
 
 ```
 BF6-application/
-├── server/              # Backend code
-│   ├── index.js         # Express server setup
-│   ├── routes/          # API routes
-│   │   ├── auth.js      # Authentication endpoints
-│   │   ├── clans.js     # Clan CRUD (MongoDB-based, optional)
-│   │   └── localClans.js # Clan CRUD (file-based, primary)
-│   ├── models/          # Data models
-│   ├── middleware/       # Middleware (JWT auth)
-│   └── scripts/         # CLI utility scripts
+├── src/                 # Frontend code (React)
+│   ├── App.jsx          # Main app component with routing
+│   ├── Clans.jsx        # Clan listing, creation, editing, deletion
+│   ├── ClanPage.jsx     # Individual clan detail page
+│   ├── About.jsx        # About page
+│   ├── Contact.jsx      # Contact page
+│   ├── Navbar.jsx       # Navigation bar
+│   ├── roles.js         # Role definitions
+│   ├── App.css          # Application styles
+│   └── main.jsx         # React entry point
+├── public/              # Static assets
+│   └── data/
+│       └── clans.json   # Clan data (read by frontend)
+├── server/              # CLI utility scripts
+│   └── scripts/
 │       ├── addMember.js
 │       ├── kickMember.js
 │       ├── addClan.js
 │       ├── removeClan.js
 │       ├── promoteMember.js
 │       └── demoteMember.js
-├── src/                 # Frontend code (React)
-│   ├── App.jsx          # Main app component
-│   ├── Clans.jsx        # Clan listing and management
-│   ├── ClanPage.jsx     # Individual clan detail page
-│   ├── Contact.jsx      # Contact page
-│   ├── About.jsx        # About page
-│   └── Navbar.jsx       # Navigation bar
-├── data/                # JSON data storage
-│   └── clans.json       # Clan data
-├── public/              # Static assets
-│   └── data/
-│       └── clans.json   # Public-facing clan data
-└── package.json
+├── screenshots/         # Application screenshots
+├── package.json
+└── vite.config.js
 ```
-
-### API Endpoints
-
-**Authentication:**
-- `POST /api/auth/register` – Register a new user
-- `POST /api/auth/login` – Login user
-- `GET /api/auth/me` – Get current user (requires token)
-
-**Clans (file-based):**
-- `GET /api/local/clans` – Get all clans
-- `POST /api/local/clans` – Create a new clan
-- `PUT /api/local/clans/:id` – Update a clan
-- `DELETE /api/local/clans/:id` – Delete a clan
 
 ### CLI Scripts
 
@@ -219,42 +235,36 @@ Promoting a member to Leader will automatically demote the current leader to Off
 
 ## Usage
 
-### 1. Authentication and Registration
+### 1. Interface Navigation
 
-Users must create an account or log into an existing one to access clan management features. Registration requires a unique username, email, and password. Upon successful login, a JWT token is issued and stored in localStorage, which is automatically included in subsequent API requests via the `Authorization: Bearer <token>` header.
+The application features a React-based single-page interface with a navigation bar at the top for switching between the Clans page, About page, and Contact page.
 
-### 2. Interface Navigation
+### 2. Clan Browsing and Management
 
-The application features a React-based single-page interface. The main components include a navigation bar for accessing different sections, a clan listing/browsing view, and detailed clan pages showing membership and settings.
-
-### 3. Using Main Functions
-
-- **Clan Creation and Management** – Authenticated users can create new clans by providing a name, tag, description, region, platform, and optional customization (image, color). Clan owners can edit or delete their clans at any time.
-- **Joining and Leaving Clans** – Users can browse available clans and join ones that interest them. They can also leave clans they no longer wish to be part of.
-- **Data Persistence** – All clan data is stored in local JSON files. Changes made through the API or CLI scripts are written directly to `public/data/clans.json`.
-
-### 4. Usage Examples
-
-**Clan Listing** – The main page displays all available clans with their tag, name, owner, description, region, platform, and founding year. Owners can edit or delete their clans directly from this view.
+The main Clans page displays all available clans with their tag, name, owner, description, member count, region, platform, and founding year. Users can create new clans, edit existing ones, or delete them directly from this view.
 
 ![Clan Listing](./screenshots/clans-list.png)
 
-**Creating a Clan** – Clicking "+ Create Clan" opens a form where users can enter the clan name, tag, description, region, platform, and a custom color.
+### 3. Creating a Clan
+
+Clicking "+ Create Clan" opens a form where users can enter the clan name, tag, description, region, platform, and a custom color.
 
 ![Create Clan Form](./screenshots/create-clan.png)
 
-**Clan Detail Page** – Clicking "View Clan" shows detailed information including an about section, clan stats, quick actions (apply to join, message leader), and a top members list.
+### 4. Clan Detail Page
+
+Clicking "View Clan" shows detailed information including an about section, clan stats (members, region, platform, founded), quick actions (apply to join, message leader), and a top members list.
 
 ![Clan Detail Page](./screenshots/clan-detail.png)
 
 ## Conclusions and Next Steps
 
-This application provides a robust solution for Battlefield 6 players looking to organize into clans and manage their communities. Users benefit from a streamlined registration process, intuitive clan management, and persistent file-based data storage. The application can be improved by:
+This application provides a robust solution for Battlefield 6 players looking to organize into clans and manage their communities. Users benefit from intuitive clan management and persistent file-based data storage. The application can be improved by:
 
 - Adding new functionalities based on user feedback (e.g., clan chat, event scheduling, matchmaking integration).
 - Optimizing performance for smoother usage with larger datasets.
-- Implementing role-based permissions within clans (e.g., officers, recruiters).
 - Adding search and filtering capabilities for browsing clans by region, platform, or member count.
+- Implementing a backend server for multi-user support and real-time updates.
 - Deploying to a production environment with proper CI/CD pipelines.
 
 ## Prerequisites
